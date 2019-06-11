@@ -61,8 +61,7 @@ public class Demo20180925ApplicationTests {
 		// Thread.currentThread().join();
 		System.out.println("购买成功人数：" + successPerson);
 		System.out.println("销售成功个数：" + saleOutNum);
-		System.out.println("剩余个数："
-				+ productInfoService.selectByCode(CODE).getProductCount());
+		System.out.println("剩余个数：" + productInfoService.selectByCode(CODE).getProductCount());
 		System.out.println("处理时间：" + doTime);
 		System.out.println("最大处理时间：" + maxTime);
 	}
@@ -88,21 +87,18 @@ public class Demo20180925ApplicationTests {
 
 			// 加排他锁（悲观锁）后减库存
 			// Map<String, Object> map =
-			// productInfoService.selectForUpdate(code,
-			// buys);
+			// productInfoService.selectForUpdate(code, buys);
 
 			// 根据版本号加乐观锁减库存
-			// Map<String, Object> map =
-			// productInfoService.updateByVersion(code,
-			// buys);
+			Map<String, Object> map = productInfoService.updateByVersion(code, buys);
 
 			// 根据库存加乐观锁减库存
 			// Map<String, Object> map = productInfoService.updateByBuys(code,
 			// buys);
 
 			// 根据缓存减库存
-			Map<String, Object> map = productInfoService.updateByRedis(code,
-					buys);
+			// Map<String, Object> map = productInfoService.updateByRedis(code,
+			// buys);
 			if ((boolean) map.get("result")) {
 				synchronized (countDownLatch) {
 					// 更新库存成功，修改购买成功人数及销售产品数量
